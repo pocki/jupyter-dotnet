@@ -1,6 +1,6 @@
-#build with: docker build --build-arg base_image=jupyter/minimal-notebook -t pocki/minimal-dotnet:20210221 .
-#build with: docker build --build-arg base_image=jupyter/scipy-notebook -t pocki/scipy-dotnet:20210221 .
-#build with: docker build --build-arg base_image=jupyter/r-notebook -t pocki/r-dotnet:20210221 .
+#build with: docker build --build-arg base_image=jupyter/minimal-notebook -t pocki/minimal-dotnet:20210403 .
+#build with: docker build --build-arg base_image=jupyter/scipy-notebook -t pocki/scipy-dotnet:20210403 .
+#build with: docker build --build-arg base_image=jupyter/r-notebook -t pocki/r-dotnet:20210403 .
 
 ARG base_image=jupyter/minimal-notebook
 FROM ${base_image} as base
@@ -41,11 +41,11 @@ RUN apt-get update \
         zlib1g \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 5.0.103
+ENV DOTNET_SDK_VERSION 5.0.201
 # Install .NET Core SDK
-RUN dotnet_sdk_version=5.0.103 \
+RUN dotnet_sdk_version=5.0.201 \
     && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='bf452dbdaec7a82835cfc7c698d2558e7ac4b092e7ef35092796ba5440eb45dd880e86c1e61f8e170ac4eb813240cf83f9fc2e342dfa8b37e45afdf5cd82fb8e' \
+    && dotnet_sha512='099084cc7935482e363bd7802d2fdd909b3d72d2e9706e9ba4df95e3d142a28b780d2b85e5fb4662dcaad18e91c7e06519184fae981a521425eed605770c3c5a' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \
