@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Prepare
+        id: prep
+        run: |
+          echo ::set-output name=datetag::$(date -u +'%Y%m%d')
+          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       -
@@ -24,7 +30,11 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/minimal-notebook
-          tags: pocki/minimal-dotnet:latest, pocki/minimal-dotnet:$(date +%Y%m%d)
+          tags: pocki/minimal-dotnet:latest, pocki/minimal-dotnet:${{ steps.prep.outputs.datetag }}
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.revision=${{ github.sha }}
       -
         name: Image digest minimal-dotnet
         run: echo ${{ steps.docker_build_minimal.outputs.digest }}
@@ -35,7 +45,11 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/scipy-notebook
-          tags: pocki/scipy-dotnet:latest, pocki/scipy-dotnet:$(date +%Y%m%d)
+          tags: pocki/scipy-dotnet:latest, pocki/scipy-dotnet:${{ steps.prep.outputs.datetag }}
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.revision=${{ github.sha }}
       -
         name: Image digest scipy-dotnet
         run: echo ${{ steps.docker_build_scipy.outputs.digest }}
@@ -46,7 +60,11 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/r-notebook
-          tags: pocki/r-dotnet:latest, pocki/r-dotnet:$(date +%Y%m%d)
+          tags: pocki/r-dotnet:latest, pocki/r-dotnet:${{ steps.prep.outputs.datetag }}
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.revision=${{ github.sha }}
       -
         name: Image digest r-dotnet
         run: echo ${{ steps.docker_build_r.outputs.digest }}
