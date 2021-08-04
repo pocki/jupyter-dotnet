@@ -16,10 +16,10 @@ All images contain some .NET sample notebooks.
 This images can be started as the original Jupyter Docker Stack images (see the Jupyter Docker Stacks [ReadTheDocs](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html))
 
 ```
-docker run -p 8888:8888 pocki/minimal-dotnet:20201125
+docker run -p 8888:8888 pocki/minimal-dotnet:latest
 ```
 
 To persistant the notebooks mount the directory: `/home/jovyan/Notebooks`
 ```
-docker run -p 8888:8888 pocki/scipy-dotnet:20201125 -v "$PWD":/home/jovyan/Notebooks
+docker run -p 8888:8888 pocki/scipy-dotnet:latest -v "$PWD":/home/jovyan/Notebooks
 ```
