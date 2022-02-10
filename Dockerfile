@@ -41,11 +41,11 @@ RUN apt-get update \
         zlib1g \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 5.0.301
+ENV DOTNET_SDK_VERSION 6.0.102
 # Install .NET Core SDK
-RUN dotnet_sdk_version=5.0.301 \
+RUN dotnet_sdk_version=6.0.102 \
     && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='81cd7a3550a262d5c907030677429fa9a1cb515071274931ab760bd8bb2a14f40c9384c8757e1c1aa681b1de22035f16bf20b41ed208becd054cc9bb1f620322' \
+    && dotnet_sha512='edd79ebad3327032ea0aaa8504c14e3270050bb459b098202676776b41a3a1d282aaefd1e5e8aa09ef7f7cf7c4601c4783a57112ff6e3d427507e8eec2bfb748' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \
@@ -67,7 +67,7 @@ USER ${USER}
 RUN pip install nteract_on_jupyter
 
 # Install lastest build from main branch of Microsoft.DotNet.Interactive
-RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json"
+RUN dotnet tool install -g Microsoft.dotnet-interactive 
 
 ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 #RUN echo "$PATH"

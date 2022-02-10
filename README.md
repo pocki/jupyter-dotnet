@@ -1,8 +1,9 @@
-# Jupyter Docker Stacks with .NET 5 kernel
+# Jupyter Docker Stacks with .NET 6 kernel
 
-Extending the [Jupyter Docker Stack images](https://github.com/jupyter/docker-stacks) with .NET 5 kernel to run notebooks in C#, F# and Powershell
+Extending the [Jupyter Docker Stack images](https://github.com/jupyter/docker-stacks) with .NET 6 kernel to run notebooks in C#, F# and Powershell
 
-.NET 5 kernel is provided by [.NET Interactive](https://github.com/dotnet/interactive)
+.NET 6 kernel is provided by [.NET Interactive](https://github.com/dotnet/interactive)
+.NET 6 kernel in tag 20220210 and later
 
 ## Actual following images are created:
 * [minimal-dotnet](https://hub.docker.com/r/pocki/minimal-dotnet) ![Docker Image Version (latest by date)](https://img.shields.io/docker/v/pocki/minimal-dotnet) based on jupyter/minimal-notebook
