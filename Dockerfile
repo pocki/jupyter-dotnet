@@ -42,11 +42,11 @@ RUN apt-get update \
         libgdiplus \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 6.0.401
+ENV DOTNET_SDK_VERSION 6.0.403
 # Install .NET Core SDK
-RUN dotnet_sdk_version=6.0.401 \
+RUN dotnet_sdk_version=6.0.403 \
     && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='6fce5f29e6cfc80da1df86d2de3a637108023397d275e0dcfa0b79ef36eb85c2c3433db467aa5d8fda7e32bc21205a126636b53d56c4eb4c547d9d3b2370cb31' \
+    && dotnet_sha512='779b3e24a889dbb517e5ff5359dab45dd3296160e4cb5592e6e41ea15cbf87279f08405febf07517aa02351f953b603e59648550a096eefcb0a20fdaf03fadde' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \
@@ -77,6 +77,10 @@ ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 
 # Install kernel specs
 RUN dotnet interactive jupyter install
+
+
+#RUN dotnet tool install -g Microsoft.Quantum.IQSharp
+#RUN dotnet iqsharp install
 
 # Enable telemetry once we install jupyter for the image
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
