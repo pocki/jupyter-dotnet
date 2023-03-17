@@ -5,8 +5,6 @@
 ARG base_image=jupyter/minimal-notebook
 FROM ${base_image} as base
 
-# Install .NET CLI dependencies
-
 ARG NB_USER=jovyan
 ARG NB_UID=1000
 ENV USER ${NB_USER}
