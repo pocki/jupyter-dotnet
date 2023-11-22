@@ -66,7 +66,7 @@ USER ${USER}
 RUN pip install nteract_on_jupyter
 
 # Install lastest build from main branch of Microsoft.DotNet.Interactive
-RUN dotnet tool install -g Microsoft.dotnet-interactive 
+RUN dotnet tool install -g Microsoft.dotnet-interactive --version 1.0.456201
 
 ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 #RUN echo "$PATH"
