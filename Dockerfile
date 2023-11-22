@@ -40,11 +40,11 @@ RUN apt-get update \
         libgdiplus \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 7.0.402
+ENV DOTNET_SDK_VERSION 7.0.404
 # Install .NET Core SDK
-RUN dotnet_sdk_version=7.0.402 \
+RUN dotnet_sdk_version=7.0.404 \
     && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='0c4d654bc7d440f49d14e6e3ea71e636bb37c92c1e835ec87879350f5b00d68465a05c3a2dc078252329c3953a131bc4c2bca6b1d2303ca5af14d3d88a192245' \
+    && dotnet_sha512='f5c122044e9a107968af1a534051e28242f45307c3db760fbb4f3a003d92d8ea5a856ad4c4e8e4b88a3b6a825fe5e3c9e596c9d2cfa0eca8d5d9ee2c5dad0053' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \
