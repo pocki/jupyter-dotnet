@@ -1,7 +1,8 @@
 repo_name: pocki/jupyter-dotnet
-report_id: c7b758fc8af33c5e02fedda2fb2dec5f
+report_id: '07828fc40781c470a1e2bcf3e905ecc4'
+version: 0.1
 repo_type: Public
-timestamp: '2023-12-14T13:17:22+00:00'
+timestamp: '2024-01-05T08:35:45+00:00'
 requested_by: pocki
 provider: github
 branch: main
@@ -16,6 +17,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Virtual Machine Platforms & Containers
   image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/pocki/jupyter-dotnet
   detection_source: Repo Metadata
 - name: Git
   description: Fast, scalable, distributed revision control system
@@ -25,6 +27,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/pocki/jupyter-dotnet
   detection_source: Repo Metadata
 - name: GitHub Actions
   description: Automate your workflow from idea to production
@@ -34,6 +37,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/pocki/jupyter-dotnet/blob/main/.github/workflows/docker-publish.yml
   detection_source: ".github/workflows/docker-publish.yml"
   last_updated_by: Christoph
   last_updated_on: 2021-06-11 08:53:06.000000000 Z
