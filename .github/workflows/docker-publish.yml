@@ -4,10 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      include:
-        - Dockerfile
-      exclude: 
-        - Dockerfile.*
+      - '!Dockerfile.*'
     
 jobs:
   docker:
