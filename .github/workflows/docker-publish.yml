@@ -3,6 +3,11 @@ name: ci
 on:
   push:
     branches: [ main ]
+    paths:
+      include:
+        - Dockerfile
+      exclude: 
+        - Dockerfile.*
     
 jobs:
   docker:
