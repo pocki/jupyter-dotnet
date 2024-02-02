@@ -4,10 +4,6 @@ on:
   push:
     branches: [ dotnet8 ]
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -30,11 +26,10 @@ jobs:
       
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
+      - name: Log into registry ghcr.io
         uses: docker/login-action@v3.0.0
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -44,7 +39,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/minimal-notebook
-          tags: pocki/jupyter-dotnet:minimal-dotnet8-latest, pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}
+          tags: ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
@@ -60,7 +55,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/scipy-notebook
-          tags: pocki/jupyter-dotnet:scipy-dotnet8-latest, pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}
+          tags: ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
@@ -76,7 +71,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/r-notebook
-          tags: pocki/jupyter-dotnet:r-dotnet8-latest, pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}
+          tags: ghcr.io/pocki/jupyter-dotnet:r-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
