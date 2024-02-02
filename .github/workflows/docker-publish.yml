@@ -44,7 +44,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/minimal-notebook
-          tags: pocki/jupyter-minimal-dotnet8:latest, pocki/jupyter-minimal-dotnet8:${{ steps.prep.outputs.datetag }}
+          tags: pocki/jupyter-dotnet:minimal-dotnet8-latest, pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
@@ -60,7 +60,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/scipy-notebook
-          tags: pocki/jupyter-scipy-dotnet8:latest, pocki/jupyter-scipy-dotnet8:${{ steps.prep.outputs.datetag }}
+          tags: pocki/jupyter-dotnet:scipy-dotnet8-latest, pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
@@ -76,7 +76,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/r-notebook
-          tags: pocki/jupyter-r-dotnet8:latest, pocki/jupyter-r-dotnet8:${{ steps.prep.outputs.datetag }}
+          tags: pocki/jupyter-dotnet:r-dotnet8-latest, pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
