@@ -9,12 +9,12 @@ Extending the [Jupyter Docker Stack images](https://github.com/jupyter/docker-st
 This images can be started as the original Jupyter Docker Stack images (see the Jupyter Docker Stacks [ReadTheDocs](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html))
 
 ```
-docker run -p 8888:8888 ghcr.io/pocki/jupyter-dotnet/minimal-dotnet8:latest
+docker run -p 8888:8888 ghcr.io/pocki/jupyter-minimal-dotnet8:latest
 ```
 
 To persistant the notebooks mount the directory: `/home/jovyan/Notebooks`
 ```
-docker run -p 8888:8888 ghcr.io/pocki/jupyter-dotnet/pocki/scipy-dotnet8:latest -v "$PWD":/home/jovyan/Notebooks
+docker run -p 8888:8888 ghcr.io/pocki/jupyter-scipy-dotnet8:latest -v "$PWD":/home/jovyan/Notebooks
 ```
 
 All images contain some .NET sample notebooks.
