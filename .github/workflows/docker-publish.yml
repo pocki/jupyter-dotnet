@@ -5,9 +5,12 @@ on:
     branches: 
       - main
       - dotnet8
+    tags:
+      - 'v*'
 
 jobs:
   docker:
+    name: Docker Build and Publish
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,8 +23,9 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          echo name=datetag::$(date -u +'%Y%m%d') >> $GITHUB_OUTPUT
-          echo name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ') >> $GITHUB_OUTPUT
+          echo "datetag=$(date -u +'%Y%m%d')" >> "$GITHUB_OUTPUT"
+          echo "created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
+          echo "tag=$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')" >> "$GITHUB_OUTPUT"
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3.0.0
@@ -41,7 +45,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/minimal-notebook
-          tags: ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}
+          tags: ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.tag }}
           labels: |
             type: minimal
             org.opencontainers.image.title=Jupyter .NET (minimal)
@@ -59,7 +63,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/scipy-notebook
-          tags: ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}
+          tags: ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.tag }}
           labels: |
             type: scipy
             org.opencontainers.image.title=Jupyter .NET (SciPy)
@@ -77,7 +81,7 @@ jobs:
         with:
           push: true
           build-args: base_image=jupyter/r-notebook
-          tags: ghcr.io/pocki/jupyter-dotnet:r-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}
+          tags: ghcr.io/pocki/jupyter-dotnet:r-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.tag }}
           labels: |
             type: r
             org.opencontainers.image.title=Jupyter .NET (R)
