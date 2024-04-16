@@ -29,7 +29,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          build-args: base_image=jupyter/minimal-notebook
+          build-args: base_image=quay.io/jupyter/minimal-notebook
           tags: pocki/minimal-dotnet:latest, pocki/minimal-dotnet:${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
@@ -44,7 +44,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          build-args: base_image=jupyter/scipy-notebook
+          build-args: base_image=quay.io/jupyter/scipy-notebook
           tags: pocki/scipy-dotnet:latest, pocki/scipy-dotnet:${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          build-args: base_image=jupyter/r-notebook
+          build-args: base_image=quay.io/jupyter/r-notebook
           tags: pocki/r-dotnet:latest, pocki/r-dotnet:${{ steps.prep.outputs.datetag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.html_url }}

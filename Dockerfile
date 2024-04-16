@@ -1,8 +1,8 @@
-#build with: docker build --build-arg base_image=jupyter/minimal-notebook -t pocki/minimal-dotnet:latest -t pocki/minimal-dotnet:20210523 .
-#build with: docker build --build-arg base_image=jupyter/scipy-notebook -t pocki/scipy-dotnet:latest -t pocki/scipy-dotnet:20210523 .
-#build with: docker build --build-arg base_image=jupyter/r-notebook -t pocki/r-dotnet:latest -t pocki/r-dotnet:20210523 .
+#build with: docker build --build-arg base_image=quay.io/jupyter/minimal-notebook -t pocki/minimal-dotnet:latest -t pocki/minimal-dotnet:20210523 .
+#build with: docker build --build-arg base_image=quay.io/jupyter/scipy-notebook -t pocki/scipy-dotnet:latest -t pocki/scipy-dotnet:20210523 .
+#build with: docker build --build-arg base_image=quay.io/jupyter/r-notebook -t pocki/r-dotnet:latest -t pocki/r-dotnet:20210523 .
 
-ARG base_image=jupyter/minimal-notebook
+ARG base_image=quay.io/jupyter/minimal-notebook
 FROM ${base_image} as base
 
 ARG NB_USER=jovyan
@@ -14,8 +14,6 @@ ENV HOME /home/${NB_USER}
 WORKDIR ${HOME}
 
 USER root
-RUN apt-get update
-RUN apt-get install -y curl
 
 ENV \
     # Enable detection of running in a container
@@ -30,6 +28,7 @@ ENV \
 # Install .NET CLI dependencies
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        curl \
         libc6 \
         libgcc1 \
         libgssapi-krb5-2 \
@@ -40,11 +39,11 @@ RUN apt-get update \
         libgdiplus \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 7.0.407
+ENV DOTNET_SDK_VERSION 7.0.408
 # Install .NET Core SDK
-RUN dotnet_sdk_version=7.0.407 \
+RUN dotnet_sdk_version=7.0.408 \
     && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='82e659aee7d3ab6595bfc141f24eda13551f5c5bd9048aad53ebe3963b8e25836ca07eb3d1d39d6adae145db399aab44ed57db27d34119e836202eb3af93c9e3' \
+    && dotnet_sha512='89d39601a27cbbc74a5dbbfc6dda6661220e76b73f7387fec6558222aa144734b44db5788bcb888c7f49d4659c8b0ea60794f93ad1223c86ceafdddf6e6b70e2' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \
@@ -63,10 +62,10 @@ RUN chown -R ${NB_UID} ${HOME}
 USER ${USER}
 
 #Install nteract 
-RUN pip install nteract_on_jupyter
+RUN pip install nteract_on_jupyter --no-cache-dir
 
 # Install lastest build from main branch of Microsoft.DotNet.Interactive
-RUN dotnet tool install -g Microsoft.dotnet-interactive --version 1.0.456201
+RUN dotnet tool install -g Microsoft.dotnet-interactive --version 1.0.456201 --no-cache
 
 ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 #RUN echo "$PATH"
