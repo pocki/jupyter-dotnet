@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
-          build-args: base_image=jupyter/minimal-notebook
+          build-args: base_image=quay.io/jupyter/minimal-notebook
           tags: ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{  github.ref_name }}
           labels: |
             type: minimal
@@ -61,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
-          build-args: base_image=jupyter/scipy-notebook
+          build-args: base_image=quay.io/jupyter/scipy-notebook
           tags: ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{  github.ref_name }}
           labels: |
             type: scipy
@@ -79,7 +79,7 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
-          build-args: base_image=jupyter/r-notebook
+          build-args: base_image=quay.io/jupyter/r-notebook
           tags: ghcr.io/pocki/jupyter-dotnet:r-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{  github.ref_name }}
           labels: |
             type: r
