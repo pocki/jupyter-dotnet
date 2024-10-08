@@ -24,14 +24,15 @@ ENV \
     # Opt out of telemetry until after we install jupyter when building the image, this prevents caching of machine id
     DOTNET_TRY_CLI_TELEMETRY_OPTOUT=true
 
-# Install .NET CLI dependencies for Ubuntu 22.04
+# Install .NET CLI dependencies for Ubuntu 24.04
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         curl \
+        ca-certificates \
         libc6 \
         libgcc-s1 \
         libgssapi-krb5-2 \
-        libicu70 \
+        libicu74 \
         liblttng-ust1 \
         libssl3 \
         libstdc++6 \
@@ -40,11 +41,11 @@ RUN apt-get update \
         libgdiplus \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 8.0.401
+ENV DOTNET_SDK_VERSION 8.0.403
 # Install .NET Core SDK
-RUN dotnet_sdk_version=8.0.401 \
+RUN dotnet_sdk_version=8.0.403 \
     && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='4d2180e82c963318863476cf61c035bd3d82165e7b70751ba231225b5575df24d30c0789d5748c3a379e1e6896b57e59286218cacd440ffb0075c9355094fd8c' \
+    && dotnet_sha512='7aa03678228b174f51c4535f18348cdf7a5d35e243b1f8cb28a4a30e402e47567d06df63c8f6da4bdc3c7e898f54f4acc08d9952bfa49d3f220d0353253ac3e9' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \
