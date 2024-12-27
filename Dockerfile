@@ -5,6 +5,8 @@
 ARG base_image=quay.io/jupyter/minimal-notebook
 FROM ${base_image} as base
 
+ARG TARGETPLATFORM
+ENV ARCHITECTURE $ARCHITECTURE
 ARG NB_USER=jovyan
 ARG NB_UID=1000
 ENV USER ${NB_USER}
@@ -41,11 +43,19 @@ RUN apt-get update \
         libgdiplus \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 8.0.403
+ENV DOTNET_SDK_VERSION 8.0.404
+ENV DOTNET_SDK_CHECKSUM ''
 # Install .NET Core SDK
-RUN dotnet_sdk_version=8.0.403 \
-    && curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-x64.tar.gz \
-    && dotnet_sha512='7aa03678228b174f51c4535f18348cdf7a5d35e243b1f8cb28a4a30e402e47567d06df63c8f6da4bdc3c7e898f54f4acc08d9952bfa49d3f220d0353253ac3e9' \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+        ARCHITECTURE=x64; \
+        DOTNET_SDK_CHECKSUM='2f166f7f3bd508154d72d1783ffac6e0e3c92023ccc2c6de49d22b411fc8b9e6dd03e7576acc1bb5870a6951181129ba77f3bf94bb45fe9c70105b1b896b9bb9'; \
+    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then  \ 
+        ARCHITECTURE=arm64; \
+        DOTNET_SDK_CHECKSUM='d147ca2e6aad8bc751b522ae91399e0e3867c42d17f892e23c8dd086ab6ccb0c13319d9b89c024b5a61ffb298e95bcfc82d9256074ddace882145c9d5a4be071'; \
+    fi \
+    && dotnet_sdk_version=${DOTNET_SDK_VERSION} \
+    && curl -SL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-${ARCHITECTURE}.tar.gz \
+    && dotnet_sha512=${DOTNET_SDK_CHECKSUM} \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -ozxf dotnet.tar.gz -C /usr/share/dotnet \

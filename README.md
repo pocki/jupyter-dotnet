@@ -36,7 +36,7 @@ Every image type is also available with the build date in the tag do use static/
 
 On build there is always the latest available version of base image, .NET and dotnet interactive used.
 
-# .NET 6/.NET 7
+# .NET 6/.NET 7 (Out-of-support)
 
 .NET 6 kernel in tag 20220210 and later  
 .NET 7 kernel in tag 20230315 and later  

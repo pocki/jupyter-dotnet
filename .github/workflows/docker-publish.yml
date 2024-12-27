@@ -27,12 +27,12 @@ jobs:
           echo "created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_OUTPUT"
       
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.0.0
+        uses: docker/setup-buildx-action@v3
       
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ghcr.io
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -40,10 +40,10 @@ jobs:
 
       - name: Build and push minimal-dotnet
         id: docker_build_minimal
-        uses: docker/build-push-action@v5.1.0
+        uses: docker/build-push-action@v6
         with:
           push: true
-          build-args: base_image=quay.io/jupyter/minimal-notebook
+          build-args: base_image=quay.io/jupyter/minimal-notebook:ubuntu-24.04
           tags: ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:minimal-dotnet8-${{  github.ref_name }}
           labels: |
             type: minimal
@@ -51,17 +51,17 @@ jobs:
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
       
       - name: Image digest minimal-dotnet
         run: echo ${{ steps.docker_build_minimal.outputs.digest }}
       
       - name: Build and push scipy-dotnet
         id: docker_build_scipy
-        uses: docker/build-push-action@v5.1.0
+        uses: docker/build-push-action@v6
         with:
           push: true
-          build-args: base_image=quay.io/jupyter/scipy-notebook
+          build-args: base_image=quay.io/jupyter/scipy-notebook:ubuntu-24.04
           tags: ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:scipy-dotnet8-${{  github.ref_name }}
           labels: |
             type: scipy
@@ -69,17 +69,17 @@ jobs:
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
      
       - name: Image digest scipy-dotnet
         run: echo ${{ steps.docker_build_scipy.outputs.digest }}
       
       - name: Build and push r-dotnet
         id: docker_build_r
-        uses: docker/build-push-action@v5.1.0
+        uses: docker/build-push-action@v6
         with:
           push: true
-          build-args: base_image=quay.io/jupyter/r-notebook
+          build-args: base_image=quay.io/jupyter/r-notebook:ubuntu-24.04
           tags: ghcr.io/pocki/jupyter-dotnet:r-dotnet8-latest, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{ steps.prep.outputs.datetag }}, ghcr.io/pocki/jupyter-dotnet:r-dotnet8-${{  github.ref_name }}
           labels: |
             type: r
@@ -87,7 +87,7 @@ jobs:
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
       
       - name: Image digest r-dotnet
         run: echo ${{ steps.docker_build_r.outputs.digest }}
