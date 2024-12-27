@@ -6,12 +6,12 @@ ARG base_image=quay.io/jupyter/minimal-notebook
 FROM ${base_image} as base
 
 ARG TARGETPLATFORM
-ENV ARCHITECTURE $ARCHITECTURE
+ENV ARCHITECTURE=$ARCHITECTURE
 ARG NB_USER=jovyan
 ARG NB_UID=1000
-ENV USER ${NB_USER}
-ENV NB_UID ${NB_UID}
-ENV HOME /home/${NB_USER}
+ENV USER=${NB_USER}
+ENV NB_UID=${NB_UID}
+ENV HOME=/home/${NB_USER}
 
 WORKDIR ${HOME}
 
@@ -29,7 +29,7 @@ ENV \
 # Install .NET CLI dependencies for Ubuntu 24.04
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        curl \
+        wget \
         ca-certificates \
         libc6 \
         libgcc-s1 \
@@ -43,8 +43,8 @@ RUN apt-get update \
         libgdiplus \
     && rm -rf /var/lib/apt/lists/*
 
-ENV DOTNET_SDK_VERSION 8.0.404
-ENV DOTNET_SDK_CHECKSUM ''
+ENV DOTNET_SDK_VERSION=8.0.404
+ENV DOTNET_SDK_CHECKSUM=''
 # Install .NET Core SDK
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         ARCHITECTURE=x64; \
@@ -54,7 +54,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         DOTNET_SDK_CHECKSUM='d147ca2e6aad8bc751b522ae91399e0e3867c42d17f892e23c8dd086ab6ccb0c13319d9b89c024b5a61ffb298e95bcfc82d9256074ddace882145c9d5a4be071'; \
     fi \
     && dotnet_sdk_version=${DOTNET_SDK_VERSION} \
-    && curl -SL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-${ARCHITECTURE}.tar.gz \
+    && wget -nv -O dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-linux-${ARCHITECTURE}.tar.gz \
     && dotnet_sha512=${DOTNET_SDK_CHECKSUM} \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
